@@ -1,0 +1,42 @@
+menuconfig FLATCC
+    bool "FlatCC runtime library"
+    default y
+    depends on ZEPHYR_FLATCC_ZEPHYR_MODULE
+    help
+      Enable the FlatCC runtime library integration for Zephyr.
+
+if FLATCC
+
+choice FLATCC_ALLOC_BACKEND
+    prompt "FlatCC allocation backend"
+    default FLATCC_ALLOC_ZEPHYR
+    help
+      Select how FlatCC runtime allocation macros are mapped.
+
+config FLATCC_ALLOC_ZEPHYR
+    bool "Use Zephyr kernel allocators"
+    help
+      Map FlatCC allocation to k_malloc/k_free and use Zephyr-backed
+      calloc/realloc helpers.
+
+config FLATCC_ALLOC_LIBC
+    bool "Use libc allocators"
+    help
+      Map FlatCC allocation to malloc/free/calloc/realloc.
+
+endchoice
+
+config FLATCC_RUNTIME_REFMAP
+    bool "Build optional refmap runtime"
+    default y
+    help
+      Build refmap.c support used by DAG cloning helpers.
+
+config FLATCC_RUNTIME_JSON
+    bool "Build JSON parser/printer runtime"
+    default n
+    help
+      Build json_parser.c and json_printer.c.
+      Keep disabled to reduce code size when JSON is not needed.
+
+endif

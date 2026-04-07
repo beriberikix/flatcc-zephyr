@@ -1,0 +1,9 @@
+# Python
+.venv/
+__pycache__/
+
+# Upstream FlatCC (cloned separately)
+modules/lib/flatcc/
+
+# Build artifacts
+build/

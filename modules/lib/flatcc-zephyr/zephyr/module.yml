@@ -1,0 +1,4 @@
+name: flatcc-zephyr
+build:
+  cmake: zephyr
+  kconfig: zephyr/Kconfig
