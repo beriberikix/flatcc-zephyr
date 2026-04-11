@@ -1,0 +1,3 @@
+[submodule "modules/lib/flatcc"]
+	path = modules/lib/flatcc
+	url = https://github.com/dvidelabs/flatcc
