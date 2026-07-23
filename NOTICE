@@ -1,0 +1,12 @@
+flatcc-zephyr
+Copyright 2026 Jonathan Beri
+
+This repository's own files (the Zephyr overlay module, allocator shim,
+samples, and documentation) are licensed under the Apache License,
+Version 2.0 (see LICENSE). Source files carry SPDX-License-Identifier
+headers.
+
+The directory modules/lib/flatcc is a pinned git submodule of upstream
+FlatCC (https://github.com/dvidelabs/flatcc), Copyright its respective
+authors, also licensed under the Apache License, Version 2.0. Upstream
+sources are consumed unmodified.

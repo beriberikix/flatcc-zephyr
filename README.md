@@ -15,20 +15,45 @@ This repository provides:
 ## Repository layout
 
 ```
+zephyr/module.yml            Repo-root module wrapper (west auto-discovery)
 modules/lib/flatcc-zephyr/   Zephyr module overlay (Kconfig, CMake, allocator shim)
-modules/lib/flatcc/          Upstream FlatCC (clone of dvidelabs/flatcc)
+modules/lib/flatcc/          Upstream FlatCC (pinned git submodule, v0.6.1)
 samples/flatcc_basic/        Minimal raw-builder test (no schema)
 samples/flatcc_monster/      Schema-generated Monster example
 ```
 
-## Prerequisites
+Upstream FlatCC is a **pinned git submodule** (currently the `v0.6.1`
+release tag), so builds are reproducible.
 
-- A Zephyr workspace (west-based) with Zephyr SDK installed.
-- Upstream FlatCC cloned at `modules/lib/flatcc`:
+## Using from a west workspace (recommended)
+
+Add the module to your manifest; `submodules: true` pulls the upstream
+FlatCC sources automatically:
+
+```yaml
+manifest:
+  projects:
+    - name: flatcc-zephyr
+      url: https://github.com/beriberikix/flatcc-zephyr
+      revision: <pinned-sha-or-tag>
+      path: modules/lib/flatcc-zephyr
+      submodules: true
+```
+
+Zephyr discovers the module automatically through the repo-root
+`zephyr/module.yml` — no `EXTRA_ZEPHYR_MODULES` wiring is needed. Enable it
+with `CONFIG_FLATCC=y` and link `flatccrt` from your application.
+
+## Standalone checkout
 
 ```sh
-git clone https://github.com/dvidelabs/flatcc modules/lib/flatcc
+git clone https://github.com/beriberikix/flatcc-zephyr
+cd flatcc-zephyr
+git submodule update --init
 ```
+
+Then register the repo root with `EXTRA_ZEPHYR_MODULES` in your app's
+CMakeLists (see the module README for details).
 
 ## Quick start
 

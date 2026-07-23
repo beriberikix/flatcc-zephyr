@@ -1,0 +1,4 @@
+name: flatcc-zephyr
+build:
+  cmake: modules/lib/flatcc-zephyr/zephyr
+  kconfig: modules/lib/flatcc-zephyr/zephyr/Kconfig

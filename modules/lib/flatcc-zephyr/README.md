@@ -12,23 +12,28 @@ This module README stays next to module code for module-local integration detail
 
 ## Expected layout
 
-Upstream FlatCC must be present at:
-
-`modules/lib/flatcc`
-
-This overlay must be present at:
-
-`modules/lib/flatcc-zephyr`
+Inside the flatcc-zephyr repository, upstream FlatCC (a pinned git
+submodule) lives at `modules/lib/flatcc`, as a sibling of this overlay at
+`modules/lib/flatcc-zephyr`. The CMake here resolves upstream relative to
+that sibling relationship.
 
 ## Enable in a Zephyr app
 
-Add this overlay module path with `ZEPHYR_EXTRA_MODULES`, for example:
+In a **west workspace** with flatcc-zephyr in the manifest (with
+`submodules: true`), nothing is needed: the repo-root `zephyr/module.yml`
+makes Zephyr discover the module automatically.
+
+For a **standalone checkout**, register the flatcc-zephyr repo root with
+`EXTRA_ZEPHYR_MODULES` before `find_package(Zephyr ...)`:
 
 ```cmake
-list(APPEND ZEPHYR_EXTRA_MODULES
-  ${CMAKE_CURRENT_SOURCE_DIR}/modules/lib/flatcc-zephyr
+list(APPEND EXTRA_ZEPHYR_MODULES
+  ${CMAKE_CURRENT_SOURCE_DIR}/path/to/flatcc-zephyr
 )
 ```
+
+(Pointing at this nested overlay directory instead of the repo root also
+works, but never register both — Zephyr rejects duplicate module names.)
 
 ## Kconfig options
 
@@ -49,6 +54,18 @@ Default allocation mode maps FlatCC allocation macros to Zephyr APIs:
 - `FLATCC_REALLOC` -> `flatcc_zephyr_realloc` -> `k_realloc`
 
 Set `CONFIG_FLATCC_ALLOC_LIBC=y` to switch to libc allocation macros.
+
+Notes:
+
+- The Zephyr backend requires a kernel heap: set
+  `CONFIG_HEAP_MEM_POOL_SIZE` large enough for your buffers (enforced by a
+  compile-time assert).
+- The allocation macros are overridden **for the `flatccrt` library
+  translation units only**. Application code that invokes FlatCC's
+  allocation macros directly (e.g. `FLATCC_ALLOC`, the aligned-alloc
+  helpers inlined from `flatcc_alloc.h`) gets the libc defaults. All normal
+  builder/emitter API usage allocates inside the library, so this only
+  matters if you call those macros yourself.
 
 ## Linking
 

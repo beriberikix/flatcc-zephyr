@@ -1,3 +1,5 @@
+/* SPDX-License-Identifier: Apache-2.0 */
+
 #ifndef FLATCC_ALLOC_ZEPHYR_H
 #define FLATCC_ALLOC_ZEPHYR_H
 

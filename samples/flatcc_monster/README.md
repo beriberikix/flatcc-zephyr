@@ -21,9 +21,13 @@ kernel allocators.
 The Monster schema is in [`monster.fbs`](monster.fbs). Pre-generated headers
 are in [`generated/`](generated/).
 
-To regenerate (requires building the `flatcc` compiler from upstream):
+To regenerate, build the host `flatcc` compiler from the pinned upstream
+submodule and run it — the generated code must come from the **same flatcc
+version** as the runtime this module compiles (the submodule pin, currently
+v0.6.1):
 
 ```sh
+cd modules/lib/flatcc && scripts/build.sh && cd ../../..
 modules/lib/flatcc/bin/flatcc -a -o samples/flatcc_monster/generated \
     samples/flatcc_monster/monster.fbs
 ```
@@ -40,7 +44,7 @@ west build -t run
 ## Expected output
 
 ```text
-*** Booting Zephyr OS build v4.4.0-rc2 ***
+*** Booting Zephyr OS build v4.4.1 ***
 Monster FlatBuffer created: 152 bytes
 PASS: Monster created and verified successfully
 ```
@@ -50,4 +54,6 @@ PASS: Monster created and verified successfully
 See [`prj.conf`](prj.conf). Notable settings:
 
 - `CONFIG_HEAP_MEM_POOL_SIZE=8192` — required for dynamic allocation
-- `CONFIG_FLATCC_RUNTIME_REFMAP=y` — needed for DAG cloning helpers
+
+The refmap runtime (`CONFIG_FLATCC_RUNTIME_REFMAP`, default `y`) is not
+required by this sample; disable it to save code size if unused.
