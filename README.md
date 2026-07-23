@@ -17,13 +17,16 @@ This repository provides:
 ```
 zephyr/module.yml            Repo-root module wrapper (west auto-discovery)
 modules/lib/flatcc-zephyr/   Zephyr module overlay (Kconfig, CMake, allocator shim)
-modules/lib/flatcc/          Upstream FlatCC (pinned git submodule, v0.6.1)
+modules/lib/flatcc/          Upstream FlatCC (pinned git submodule)
 samples/flatcc_basic/        Minimal raw-builder test (no schema)
 samples/flatcc_monster/      Schema-generated Monster example
 ```
 
-Upstream FlatCC is a **pinned git submodule** (currently the `v0.6.1`
-release tag), so builds are reproducible.
+Upstream FlatCC is a **pinned git submodule**, so builds are reproducible.
+The pin currently tracks flatcc `main` at `2920173` (April 2026): upstream
+has not tagged a release since v0.6.1 (2022), and the intervening
+`[0.6.2-pre]` changelog carries relevant fixes (e.g. aligned-alloc failure
+handling, verifier hardening). If upstream tags 0.6.2, move the pin there.
 
 ## Using from a west workspace (recommended)
 

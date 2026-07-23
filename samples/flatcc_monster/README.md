@@ -23,8 +23,8 @@ are in [`generated/`](generated/).
 
 To regenerate, build the host `flatcc` compiler from the pinned upstream
 submodule and run it — the generated code must come from the **same flatcc
-version** as the runtime this module compiles (the submodule pin, currently
-v0.6.1):
+version** as the runtime this module compiles (whatever the submodule is
+pinned to):
 
 ```sh
 cd modules/lib/flatcc && scripts/build.sh && cd ../../..
