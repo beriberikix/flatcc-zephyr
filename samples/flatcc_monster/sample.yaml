@@ -1,0 +1,21 @@
+sample:
+  name: FlatCC Monster schema sample
+
+common:
+  tags:
+    - flatcc
+    - samples
+  integration_platforms:
+    - native_sim
+
+tests:
+  flatcc_zephyr.samples.monster:
+    harness: console
+    harness_config:
+      type: multi_line
+      regex:
+        - "Monster FlatBuffer created"
+        - "PASS: Monster created and verified successfully"
+    platform_allow:
+      - native_sim
+    timeout: 20

@@ -24,7 +24,7 @@ west build -t run
 ## Expected output
 
 ```text
-*** Booting Zephyr OS build v4.4.0-rc2 ***
+*** Booting Zephyr OS build v4.4.1 ***
 builder initialised (allocator OK)
 created 16-byte FlatBuffer with Vec3 struct
 PASS
