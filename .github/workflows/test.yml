@@ -1,0 +1,54 @@
+name: flatcc-zephyr Tests
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+  workflow_dispatch:
+
+env:
+  ZEPHYR_REVISION: v4.4.1
+
+jobs:
+  samples:
+    name: Samples (native_sim)
+    runs-on: ubuntu-latest
+    env:
+      ZEPHYR_TOOLCHAIN_VARIANT: host
+
+    steps:
+    - name: Checkout repository (with upstream flatcc submodule)
+      uses: actions/checkout@v4
+      with:
+        submodules: true
+
+    - name: Set up Zephyr workspace
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y gcc-multilib g++-multilib libc6-dev-i386
+
+        python3 -m pip install --user --upgrade pip
+        python3 -m pip install --user west
+        echo "$HOME/.local/bin" >> "$GITHUB_PATH"
+
+        west init -m https://github.com/zephyrproject-rtos/zephyr \
+          --mr "$ZEPHYR_REVISION" .west-zephyr
+        cd .west-zephyr
+        west update --narrow -o=--depth=1
+        west zephyr-export
+        python3 -m pip install --user -r zephyr/scripts/requirements.txt
+
+        echo "ZEPHYR_BASE=$GITHUB_WORKSPACE/.west-zephyr/zephyr" >> "$GITHUB_ENV"
+
+    - name: Build and run samples (native_sim)
+      run: |
+        python3 "$ZEPHYR_BASE/scripts/twister" -T samples -p native_sim -v --inline-logs
+
+    - name: Upload results
+      if: always()
+      uses: actions/upload-artifact@v4
+      with:
+        name: twister-results
+        path: twister-out/
+        retention-days: 14
