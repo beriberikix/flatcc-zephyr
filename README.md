@@ -1,5 +1,8 @@
 # flatcc-zephyr
 
+[![docs](https://img.shields.io/github/actions/workflow/status/beriberikix/flatcc-zephyr/docs.yml?branch=main&label=docs)](https://beriberikix.github.io/flatcc-zephyr/)
+[![tests](https://img.shields.io/github/actions/workflow/status/beriberikix/flatcc-zephyr/test.yml?branch=main&label=tests)](https://github.com/beriberikix/flatcc-zephyr/actions/workflows/test.yml)
+
 Zephyr-native overlay module for upstream
 [FlatCC](https://github.com/dvidelabs/flatcc) runtime integration.
 
