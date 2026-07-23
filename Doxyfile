@@ -1,0 +1,24 @@
+# Doxygen configuration for the flatcc-zephyr wrapper module.
+# Only overrides are listed; everything else uses Doxygen defaults.
+# Documents the Zephyr wrapper only — the upstream flatcc submodule
+# (modules/lib/flatcc) carries its own documentation and is not included.
+# Build locally with `doxygen` (output in doxygen/html); CI builds and
+# publishes it to GitHub Pages via .github/workflows/docs.yml.
+
+PROJECT_NAME           = flatcc-zephyr
+PROJECT_BRIEF          = "Zephyr overlay module for the upstream FlatCC runtime"
+OUTPUT_DIRECTORY       = doxygen
+
+INPUT                  = README.md \
+                         modules/lib/flatcc-zephyr/README.md \
+                         modules/lib/flatcc-zephyr/include
+RECURSIVE              = YES
+USE_MDFILE_AS_MAINPAGE = README.md
+
+EXTRACT_ALL            = NO
+WARN_NO_PARAMDOC       = YES
+WARN_AS_ERROR          = FAIL_ON_WARNINGS
+QUIET                  = YES
+
+GENERATE_LATEX         = NO
+GENERATE_TREEVIEW      = YES

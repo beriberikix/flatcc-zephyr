@@ -4,3 +4,6 @@ __pycache__/
 
 # Build artifacts
 build/
+
+# Generated API documentation
+doxygen/
